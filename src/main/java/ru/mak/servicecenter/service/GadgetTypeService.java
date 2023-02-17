@@ -2,7 +2,7 @@ package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mak.servicecenter.entity.Base;
-import ru.mak.servicecenter.entity.Malfunction;
+import ru.mak.servicecenter.entity.GadgetType;
 import ru.mak.servicecenter.repository.MalfunctionRepository;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class MalfunctionService implements BaseServiceImpl {
         if (base == null) {
             return null;
         }
-        return malfunctionRepository.save((Malfunction) base);
+        return malfunctionRepository.save((GadgetType) base);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MalfunctionService implements BaseServiceImpl {
             return null;
         }
         base.setId(id);
-        return malfunctionRepository.save((Malfunction) base);
+        return malfunctionRepository.save((GadgetType) base);
     }
 
     @Override
