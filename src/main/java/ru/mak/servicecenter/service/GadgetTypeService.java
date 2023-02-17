@@ -3,26 +3,26 @@ package ru.mak.servicecenter.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mak.servicecenter.entity.Base;
 import ru.mak.servicecenter.entity.GadgetType;
-import ru.mak.servicecenter.repository.MalfunctionRepository;
+import ru.mak.servicecenter.repository.GadgetTypeRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MalfunctionService implements BaseServiceImpl {
+public class GadgetTypeService implements BaseServiceImpl {
     @Autowired
-    MalfunctionRepository malfunctionRepository;
+    GadgetTypeRepository gadgetTypeRepository;
 
     @Override
     public Base getById(Long id) {
         if (id == null) {
             return null;
         }
-        return malfunctionRepository.findById(id).orElse(null);
+        return gadgetTypeRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Base> getAll() {
-        return malfunctionRepository.getAll().stream().collect(Collectors.toList());
+        return gadgetTypeRepository.getAll().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -30,7 +30,7 @@ public class MalfunctionService implements BaseServiceImpl {
         if (base == null) {
             return null;
         }
-        return malfunctionRepository.save((GadgetType) base);
+        return gadgetTypeRepository.save((GadgetType) base);
     }
 
     @Override
@@ -39,11 +39,11 @@ public class MalfunctionService implements BaseServiceImpl {
             return null;
         }
         base.setId(id);
-        return malfunctionRepository.save((GadgetType) base);
+        return gadgetTypeRepository.save((GadgetType) base);
     }
 
     @Override
     public void deleteById(Long id) {
-        malfunctionRepository.deleteById(id);
+        gadgetTypeRepository.deleteById(id);
     }
 }

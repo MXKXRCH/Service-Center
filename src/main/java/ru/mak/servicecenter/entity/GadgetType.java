@@ -10,11 +10,13 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "malfunction")
-public class Malfunction extends Base {
-    @Column(name = "name")
-    private String name;
+@Table(name = "gadget_type")
+public class GadgetType extends ObjectBase {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "gadgetType", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Gadget> gadgets;
 
+    /*
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -22,5 +24,5 @@ public class Malfunction extends Base {
             joinColumns = @JoinColumn(name = "malfunction_id"),
             inverseJoinColumns = @JoinColumn(name = "gadget_id")
     )
-    private Set<Gadget> gadgets;
+    private Set<Gadget> gadgets;*/
 }

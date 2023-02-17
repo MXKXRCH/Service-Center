@@ -5,6 +5,6 @@ import ru.mak.servicecenter.entity.GadgetType;
 
 import java.util.Optional;
 
-public interface MalfunctionRepository extends JpaRepository<GadgetType, Long> {
+public interface GadgetTypeRepository extends JpaRepository<GadgetType, Long> {
     Optional<GadgetType> getAll();
 }

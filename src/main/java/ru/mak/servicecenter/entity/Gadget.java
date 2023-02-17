@@ -10,16 +10,16 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "gadget_info")
-public class Gadget extends Base {
-    @Column(name = "name")
-    private String name;
-
+public class Gadget extends ObjectBase {
     @Column(name = "guarantee")
     private Integer guarantee;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gadgetInfo", fetch = FetchType.LAZY)
     private Set<Order> orders;
 
-    @ManyToMany(mappedBy = "gadgets")
-    private  Set<Malfunction> malfunctions;
+    @JoinColumn(name="type_id")
+    private GadgetType gadgetType;
+
+    /*@ManyToMany(mappedBy = "gadgets")
+    private  Set<GadgetType> gadgetTypes;*/
 }

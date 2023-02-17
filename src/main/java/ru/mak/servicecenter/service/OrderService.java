@@ -3,8 +3,10 @@ package ru.mak.servicecenter.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mak.servicecenter.entity.Base;
 import ru.mak.servicecenter.entity.Order;
+import ru.mak.servicecenter.entity.Repair;
 import ru.mak.servicecenter.repository.OrderRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,5 +47,13 @@ public class OrderService implements BaseServiceImpl {
     @Override
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    public BigDecimal getTotalPrice(Order order) {
+        BigDecimal totalPrice = new BigDecimal(0);
+        for (Repair repair : order.getRepairs()) {
+            totalPrice.add(repair.getPrice());
+        }
+        return totalPrice;
     }
 }

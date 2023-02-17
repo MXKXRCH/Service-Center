@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -36,4 +37,8 @@ public class Order extends Base {
     @JsonIgnore
     @JoinColumn(name="gadget_id")
     private Gadget gadget;
+
+    @ManyToMany(mappedBy = "orders")
+    @JsonIgnore
+    private Set<Repair> repairs;
 }

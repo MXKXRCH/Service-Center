@@ -5,6 +5,6 @@ import ru.mak.servicecenter.entity.Repair;
 
 import java.util.Optional;
 
-public interface RepairServiceRepository extends JpaRepository<Long, Repair> {
+public interface RepairRepository extends JpaRepository<Repair, Long> {
     Optional<Repair> getAll();
 }

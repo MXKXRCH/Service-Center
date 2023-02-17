@@ -11,7 +11,7 @@ import java.util.Set;
 @MappedSuperclass
 @Entity
 @Table(name = "client")
-public class Client extends People {
+public class Client extends PeopleBase {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clients", fetch = FetchType.LAZY)
     private Set<Order> orders;
 }

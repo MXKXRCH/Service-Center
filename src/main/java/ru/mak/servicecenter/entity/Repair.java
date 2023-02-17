@@ -12,15 +12,15 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "repair_service")
-public class RepairService extends ObjectBase {
+public class Repair extends ObjectBase {
     @Column(name = "price")
     private BigDecimal price;
 
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name = "repair_service_order",
-            joinColumns = @JoinColumn(name = "service_id"),
+            name = "repair_order",
+            joinColumns = @JoinColumn(name = "repair_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private Set<Order> orders;

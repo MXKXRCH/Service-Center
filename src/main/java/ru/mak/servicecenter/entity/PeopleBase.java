@@ -2,9 +2,13 @@ package ru.mak.servicecenter.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
-public class People extends Base {
+@Data
+public class PeopleBase extends Base {
 
     @Column(name = "name")
     private String name;
