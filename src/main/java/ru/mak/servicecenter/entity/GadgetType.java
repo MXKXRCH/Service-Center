@@ -11,7 +11,10 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "gadget_type")
-public class GadgetType extends ObjectBase {
+public class GadgetType extends Base {
+    @Column(name = "name")
+    private String name;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gadgetType", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Gadget> gadgets;

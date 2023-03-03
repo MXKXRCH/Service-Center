@@ -10,7 +10,10 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "gadget_info")
-public class Gadget extends ObjectBase {
+public class Gadget extends Base {
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "guarantee")
     private Integer guarantee;
 

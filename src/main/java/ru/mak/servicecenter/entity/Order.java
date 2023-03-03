@@ -2,14 +2,14 @@ package ru.mak.servicecenter.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "order")
 public class Order extends Base {
@@ -25,11 +25,6 @@ public class Order extends Base {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="client_id")
-    private Client client;
-
-    @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="employee_id")
     private Employee employee;
 
@@ -40,5 +35,5 @@ public class Order extends Base {
 
     @ManyToMany(mappedBy = "orders")
     @JsonIgnore
-    private Set<Repair> repairs;
+    private Set<Mending> mendings;
 }

@@ -3,7 +3,7 @@ package ru.mak.servicecenter.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mak.servicecenter.entity.Base;
 import ru.mak.servicecenter.entity.Order;
-import ru.mak.servicecenter.entity.Repair;
+import ru.mak.servicecenter.entity.Mending;
 import ru.mak.servicecenter.repository.OrderRepository;
 
 import java.math.BigDecimal;
@@ -51,8 +51,8 @@ public class OrderService implements BaseServiceImpl {
 
     public BigDecimal getTotalPrice(Order order) {
         BigDecimal totalPrice = new BigDecimal(0);
-        for (Repair repair : order.getRepairs()) {
-            totalPrice.add(repair.getPrice());
+        for (Mending mending : order.getMendings()) {
+            totalPrice = totalPrice.add(mending.getPrice());
         }
         return totalPrice;
     }

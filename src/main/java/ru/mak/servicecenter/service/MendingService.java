@@ -2,27 +2,27 @@ package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mak.servicecenter.entity.Base;
-import ru.mak.servicecenter.entity.Repair;
-import ru.mak.servicecenter.repository.RepairRepository;
+import ru.mak.servicecenter.entity.Mending;
+import ru.mak.servicecenter.repository.MendingRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RepairService implements BaseServiceImpl {
+public class MendingService implements BaseServiceImpl {
     @Autowired
-    RepairRepository repairRepository;
+    MendingRepository mendingRepository;
 
     @Override
     public Base getById(Long id) {
         if (id == null) {
             return null;
         }
-        return repairRepository.findById(id).orElse(null);
+        return mendingRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Base> getAll() {
-        return repairRepository.getAll().stream().collect(Collectors.toList());
+        return mendingRepository.getAll().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -30,7 +30,7 @@ public class RepairService implements BaseServiceImpl {
         if (base == null) {
             return null;
         }
-        return repairRepository.save((Repair)base);
+        return mendingRepository.save((Mending)base);
     }
 
     @Override
@@ -39,11 +39,11 @@ public class RepairService implements BaseServiceImpl {
             return null;
         }
         base.setId(id);
-        return repairRepository.save((Repair)base);
+        return mendingRepository.save((Mending)base);
     }
 
     @Override
     public void deleteById(Long id) {
-        repairRepository.deleteById(id);
+        mendingRepository.deleteById(id);
     }
 }

@@ -11,16 +11,19 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "repair_service")
-public class Repair extends ObjectBase {
+@Table(name = "mending_service")
+public class Mending extends Base {
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "price")
     private BigDecimal price;
 
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name = "repair_order",
-            joinColumns = @JoinColumn(name = "repair_id"),
+            name = "mending_order",
+            joinColumns = @JoinColumn(name = "mending_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private Set<Order> orders;
