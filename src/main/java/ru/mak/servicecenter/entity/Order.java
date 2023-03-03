@@ -35,5 +35,5 @@ public class Order extends Base {
 
     @ManyToMany(mappedBy = "orders")
     @JsonIgnore
-    private Set<Mending> mendings;
+    private Set<Repair> repairs;
 }

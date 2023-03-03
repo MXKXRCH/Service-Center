@@ -11,8 +11,8 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Table(name = "mending_service")
-public class Mending extends Base {
+@Table(name = "repair_service")
+public class Repair extends Base {
     @Column(name = "name")
     private String name;
 
@@ -22,8 +22,8 @@ public class Mending extends Base {
     @ManyToMany
     @JsonIgnore
     @JoinTable(
-            name = "mending_order",
-            joinColumns = @JoinColumn(name = "mending_id"),
+            name = "repair_order",
+            joinColumns = @JoinColumn(name = "repair_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id")
     )
     private Set<Order> orders;
