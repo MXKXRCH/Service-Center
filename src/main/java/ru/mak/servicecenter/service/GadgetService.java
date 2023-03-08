@@ -1,7 +1,6 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mak.servicecenter.dto.BasePojo;
 import ru.mak.servicecenter.dto.GadgetPojo;
 import ru.mak.servicecenter.entity.Gadget;
 import ru.mak.servicecenter.entity.GadgetType;
@@ -12,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class GadgetService implements BaseServiceImpl {
+public class GadgetService {
     @Autowired
     GadgetRepository gadgetRepository;
     @Autowired
     GadgetTypeRepository gadgetTypeRepository;
 
-    @Override
-    public BasePojo getById(Long id) {
+
+    public GadgetPojo getById(Long id) {
         if (id == null) {
             return null;
         }
@@ -27,46 +26,46 @@ public class GadgetService implements BaseServiceImpl {
         return GadgetPojo.fromEntity(gadget);
     }
 
-    @Override
-    public List<BasePojo> getAll() {
-        List<BasePojo> result = new ArrayList<>();
+
+    public List<GadgetPojo> getAll() {
+        List<GadgetPojo> result = new ArrayList<>();
         for (Gadget gadget : gadgetRepository.findAll()) {
             result.add(GadgetPojo.fromEntity(gadget));
         }
         return result;
     }
 
-    public GadgetPojo save(BasePojo pojo, Long gadgetTypeId) {
+    public GadgetPojo save(GadgetPojo pojo, Long gadgetTypeId) {
         if (pojo == null) {
             return null;
         }
         GadgetType gadgetType = gadgetTypeRepository.findById(gadgetTypeId).orElseThrow();
-        Gadget gadget = GadgetPojo.toEntity((GadgetPojo) pojo, gadgetType);
+        Gadget gadget = GadgetPojo.toEntity(pojo, gadgetType);
         return GadgetPojo.fromEntity(gadget);
     }
 
-    public GadgetPojo update(Long id, BasePojo pojo, Long gadgetTypeId) {
+    public GadgetPojo update(Long id, GadgetPojo pojo, Long gadgetTypeId) {
         if (pojo == null || id == null) {
             return null;
         }
         gadgetRepository.findById(id).orElseThrow(NoSuchElementException::new);
         pojo.setId(id);
         GadgetType gadgetType = gadgetTypeRepository.findById(gadgetTypeId).orElseThrow();
-        Gadget gadget = GadgetPojo.toEntity((GadgetPojo) pojo, gadgetType);
+        Gadget gadget = GadgetPojo.toEntity(pojo, gadgetType);
         return GadgetPojo.fromEntity(gadget);
     }
 
-    @Override
-    public BasePojo save(BasePojo pojo) {
+
+    public GadgetPojo save(GadgetPojo pojo) {
         return null;
     }
 
-    @Override
-    public BasePojo update(Long id, BasePojo pojo) {
+
+    public GadgetPojo update(Long id, GadgetPojo pojo) {
         return null;
     }
 
-    @Override
+
     public void deleteById(Long id) {
         gadgetRepository.deleteById(id);
     }

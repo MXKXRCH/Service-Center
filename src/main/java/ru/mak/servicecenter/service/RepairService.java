@@ -1,7 +1,6 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mak.servicecenter.dto.BasePojo;
 import ru.mak.servicecenter.dto.RepairPojo;
 import ru.mak.servicecenter.entity.Repair;
 import ru.mak.servicecenter.repository.RepairRepository;
@@ -10,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class RepairService implements BaseServiceImpl {
+public class RepairService {
     @Autowired
     RepairRepository repairRepository;
 
-    @Override
-    public BasePojo getById(Long id) {
+
+    public RepairPojo getById(Long id) {
         if (id == null) {
             return null;
         }
@@ -23,25 +22,25 @@ public class RepairService implements BaseServiceImpl {
         return RepairPojo.fromEntity(repair);
     }
 
-    @Override
-    public List<BasePojo> getAll() {
-        List<BasePojo> result = new ArrayList<>();
+
+    public List<RepairPojo> getAll() {
+        List<RepairPojo> result = new ArrayList<>();
         for (Repair repair : repairRepository.findAll()) {
             result.add(RepairPojo.fromEntity(repair));
         }
         return result;
     }
 
-    @Override
-    public BasePojo save(BasePojo pojo) {
+
+    public RepairPojo save(RepairPojo pojo) {
         if (pojo == null) {
             return null;
         }
         return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
     }
 
-    @Override
-    public BasePojo update(Long id, BasePojo pojo) {
+
+    public RepairPojo update(Long id, RepairPojo pojo) {
         if (pojo == null || id == null) {
             return null;
         }
@@ -50,7 +49,7 @@ public class RepairService implements BaseServiceImpl {
         return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
     }
 
-    @Override
+
     public void deleteById(Long id) {
         repairRepository.deleteById(id);
     }
