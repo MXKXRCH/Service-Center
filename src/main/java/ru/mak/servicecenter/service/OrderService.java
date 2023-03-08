@@ -1,59 +1,79 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mak.servicecenter.entity.Base;
+import ru.mak.servicecenter.dto.BasePojo;
+import ru.mak.servicecenter.dto.OrderPojo;
+import ru.mak.servicecenter.entity.Employee;
+import ru.mak.servicecenter.entity.Gadget;
 import ru.mak.servicecenter.entity.Order;
-import ru.mak.servicecenter.entity.Repair;
+import ru.mak.servicecenter.repository.EmployeeRepository;
+import ru.mak.servicecenter.repository.GadgetRepository;
 import ru.mak.servicecenter.repository.OrderRepository;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 public class OrderService implements BaseServiceImpl {
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
+    @Autowired
+    GadgetRepository gadgetRepository;
 
     @Override
-    public Base getById(Long id) {
+    public BasePojo getById(Long id) {
         if (id == null) {
             return null;
         }
-        return orderRepository.findById(id).orElse(null);
+        Order order = orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return OrderPojo.fromEntity(order);
     }
 
     @Override
-    public List<Base> getAll() {
-        return orderRepository.getAll().stream().collect(Collectors.toList());
+    public List<BasePojo> getAll() {
+        List<BasePojo> result = new ArrayList<>();
+        for (Order order : orderRepository.findAll()) {
+            result.add(OrderPojo.fromEntity(order));
+        }
+        return result;
     }
 
-    @Override
-    public Base save(Base base) {
-        if (base == null) {
+    public OrderPojo save(BasePojo pojo, Long employeeId, Long gadgetId) {
+        if (pojo == null) {
             return null;
         }
-        return orderRepository.save((Order)base);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Gadget gadget = gadgetRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Order order = OrderPojo.toEntity((OrderPojo) pojo, employee, gadget);
+        return OrderPojo.fromEntity(orderRepository.save(order));
+    }
+
+    public OrderPojo update(Long id, BasePojo pojo, Long employeeId, Long gadgetId) {
+        if (pojo == null || id == null) {
+            return null;
+        }
+        orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        pojo.setId(id);
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Gadget gadget = gadgetRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Order order = OrderPojo.toEntity((OrderPojo) pojo, employee, gadget);
+        return OrderPojo.fromEntity(orderRepository.save(order));
     }
 
     @Override
-    public Base update(Long id, Base base) {
-        if (base == null || id == null) {
-            return null;
-        }
-        base.setId(id);
-        return orderRepository.save((Order)base);
+    public BasePojo save(BasePojo pojo) {
+        return null;
+    }
+
+    @Override
+    public BasePojo update(Long id, BasePojo pojo) {
+        return null;
     }
 
     @Override
     public void deleteById(Long id) {
         orderRepository.deleteById(id);
-    }
-
-    public BigDecimal getTotalPrice(Order order) {
-        BigDecimal totalPrice = new BigDecimal(0);
-        for (Repair repair : order.getRepairs()) {
-            totalPrice = totalPrice.add(repair.getPrice());
-        }
-        return totalPrice;
     }
 }

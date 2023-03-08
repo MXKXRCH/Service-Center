@@ -1,45 +1,53 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mak.servicecenter.entity.Base;
+import ru.mak.servicecenter.dto.BasePojo;
+import ru.mak.servicecenter.dto.RepairPojo;
 import ru.mak.servicecenter.entity.Repair;
 import ru.mak.servicecenter.repository.RepairRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 public class RepairService implements BaseServiceImpl {
     @Autowired
     RepairRepository repairRepository;
 
     @Override
-    public Base getById(Long id) {
+    public BasePojo getById(Long id) {
         if (id == null) {
             return null;
         }
-        return repairRepository.findById(id).orElse(null);
+        Repair repair = repairRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return RepairPojo.fromEntity(repair);
     }
 
     @Override
-    public List<Base> getAll() {
-        return repairRepository.getAll().stream().collect(Collectors.toList());
+    public List<BasePojo> getAll() {
+        List<BasePojo> result = new ArrayList<>();
+        for (Repair repair : repairRepository.findAll()) {
+            result.add(RepairPojo.fromEntity(repair));
+        }
+        return result;
     }
 
     @Override
-    public Base save(Base base) {
-        if (base == null) {
+    public BasePojo save(BasePojo pojo) {
+        if (pojo == null) {
             return null;
         }
-        return repairRepository.save((Repair)base);
+        return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
     }
 
     @Override
-    public Base update(Long id, Base base) {
-        if (base == null || id == null) {
+    public BasePojo update(Long id, BasePojo pojo) {
+        if (pojo == null || id == null) {
             return null;
         }
-        base.setId(id);
-        return repairRepository.save((Repair)base);
+        repairRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        pojo.setId(id);
+        return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
     }
 
     @Override

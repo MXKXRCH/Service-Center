@@ -1,45 +1,53 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.mak.servicecenter.entity.Base;
+import ru.mak.servicecenter.dto.BasePojo;
+import ru.mak.servicecenter.dto.EmployeePojo;
 import ru.mak.servicecenter.entity.Employee;
 import ru.mak.servicecenter.repository.EmployeeRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 public class EmployeeService implements BaseServiceImpl {
     @Autowired
     EmployeeRepository employeeRepository;
 
     @Override
-    public Base getById(Long id) {
+    public BasePojo getById(Long id) {
         if (id == null) {
             return null;
         }
-        return employeeRepository.findById(id).orElse(null);
+        Employee employee = employeeRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return EmployeePojo.fromEntity(employee);
     }
 
     @Override
-    public List<Base> getAll() {
-        return employeeRepository.getAll().stream().collect(Collectors.toList());
+    public List<BasePojo> getAll() {
+        List<BasePojo> result = new ArrayList<>();
+        for (Employee employee : employeeRepository.findAll()) {
+            result.add(EmployeePojo.fromEntity(employee));
+        }
+        return result;
     }
 
     @Override
-    public Base save(Base base) {
-        if (base == null) {
+    public BasePojo save(BasePojo pojo) {
+        if (pojo == null) {
             return null;
         }
-        return employeeRepository.save((Employee) base);
+        return EmployeePojo.fromEntity(EmployeePojo.toEntity(((EmployeePojo) pojo)));
     }
 
     @Override
-    public Base update(Long id, Base base) {
-        if (base == null || id == null) {
+    public BasePojo update(Long id, BasePojo pojo) {
+        if (pojo == null || id == null) {
             return null;
         }
-        base.setId(id);
-        return employeeRepository.save((Employee) base);
+        employeeRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        pojo.setId(id);
+        return EmployeePojo.fromEntity(EmployeePojo.toEntity(((EmployeePojo) pojo)));
     }
 
     @Override

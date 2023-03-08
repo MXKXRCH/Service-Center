@@ -1,6 +1,5 @@
 package ru.mak.servicecenter.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,17 +22,14 @@ public class Order extends Base {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="employee_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="employee_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Employee employee;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="gadget_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="gadget_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Gadget gadget;
 
-    @ManyToMany(mappedBy = "orders")
-    @JsonIgnore
+    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Repair> repairs;
 }
