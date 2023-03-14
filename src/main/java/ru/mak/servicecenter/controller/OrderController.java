@@ -47,7 +47,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/{employeeId}/{gadgetId}")
     public ResponseEntity<OrderPojo> update(
                                             @RequestBody OrderPojo pojo,
                                             @PathVariable("employeeId") Long employeeId,
