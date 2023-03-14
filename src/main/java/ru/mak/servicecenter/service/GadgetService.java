@@ -44,12 +44,11 @@ public class GadgetService {
         return GadgetPojo.fromEntity(gadget);
     }
 
-    public GadgetPojo update(Long id, GadgetPojo pojo, Long gadgetTypeId) {
-        if (pojo == null || id == null) {
+    public GadgetPojo update(GadgetPojo pojo, Long gadgetTypeId) {
+        if (pojo == null) {
             return null;
         }
-        gadgetRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        pojo.setId(id);
+        gadgetRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         GadgetType gadgetType = gadgetTypeRepository.findById(gadgetTypeId).orElseThrow();
         Gadget gadget = GadgetPojo.toEntity(pojo, gadgetType);
         return GadgetPojo.fromEntity(gadget);

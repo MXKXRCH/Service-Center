@@ -40,12 +40,11 @@ public class EmployeeService {
     }
 
 
-    public EmployeePojo update(Long id, EmployeePojo pojo) {
-        if (pojo == null || id == null) {
+    public EmployeePojo update(EmployeePojo pojo) {
+        if (pojo == null) {
             return null;
         }
-        employeeRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        pojo.setId(id);
+        employeeRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         return EmployeePojo.fromEntity(EmployeePojo.toEntity(pojo));
     }
 

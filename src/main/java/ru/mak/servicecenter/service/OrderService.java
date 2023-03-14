@@ -47,12 +47,11 @@ public class OrderService {
         return OrderPojo.fromEntity(orderRepository.save(order));
     }
 
-    public OrderPojo update(Long id, OrderPojo pojo, Long employeeId, Long gadgetId) {
-        if (pojo == null || id == null) {
+    public OrderPojo update(OrderPojo pojo, Long employeeId, Long gadgetId) {
+        if (pojo == null) {
             return null;
         }
-        orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        pojo.setId(id);
+        orderRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
         Gadget gadget = gadgetRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
         Order order = OrderPojo.toEntity(pojo, employee, gadget);

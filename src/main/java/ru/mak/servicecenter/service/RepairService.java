@@ -40,12 +40,11 @@ public class RepairService {
     }
 
 
-    public RepairPojo update(Long id, RepairPojo pojo) {
-        if (pojo == null || id == null) {
+    public RepairPojo update(RepairPojo pojo) {
+        if (pojo == null) {
             return null;
         }
-        repairRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        pojo.setId(id);
+        repairRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
     }
 
