@@ -10,8 +10,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "order")
-public class Order extends Base {
+@Table(name = "ordering")
+public class Ordering {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "description")
     private String description;
@@ -23,13 +26,13 @@ public class Order extends Base {
     private Date endDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="employee_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name="employee_id")
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="gadget_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name="gadget_id")
     private Gadget gadget;
 
-    @ManyToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "orderings", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Repair> repairs;
 }

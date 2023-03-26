@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class EmployeePojo extends BasePojo {
+public class EmployeePojo {
+    private Long id;
     private String name;
     private String phone;
     private String email;
@@ -16,7 +17,8 @@ public class EmployeePojo extends BasePojo {
     private BigDecimal salary;
 
     public static EmployeePojo fromEntity(Employee employee) {
-        EmployeePojo pojo = (EmployeePojo) BasePojo.fromEntity(employee);
+        EmployeePojo pojo = new EmployeePojo();
+        pojo.setId(employee.getId());
         pojo.setName(employee.getName());
         pojo.setPhone(employee.getPhone());
         pojo.setEmail(employee.getEmail());
@@ -26,7 +28,8 @@ public class EmployeePojo extends BasePojo {
     }
 
     public static Employee toEntity(EmployeePojo pojo) {
-        Employee employee = (Employee) BasePojo.toEntity(pojo);
+        Employee employee = new Employee();
+        employee.setId(pojo.getId());
         employee.setName(pojo.getName());
         employee.setPhone(pojo.getPhone());
         employee.setEmail(pojo.getEmail());

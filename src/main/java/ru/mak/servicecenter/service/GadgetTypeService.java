@@ -1,6 +1,7 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.mak.servicecenter.dto.GadgetTypePojo;
 import ru.mak.servicecenter.entity.GadgetType;
 import ru.mak.servicecenter.repository.GadgetTypeRepository;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class GadgetTypeService {
     @Autowired
     GadgetTypeRepository gadgetTypeRepository;
@@ -33,7 +35,7 @@ public class GadgetTypeService {
         if (pojo == null) {
             return null;
         }
-        return GadgetTypePojo.fromEntity(GadgetTypePojo.toEntity(pojo));
+        return GadgetTypePojo.fromEntity(gadgetTypeRepository.save(GadgetTypePojo.toEntity(pojo)));
     }
 
     public GadgetTypePojo update(GadgetTypePojo pojo) {
@@ -41,7 +43,7 @@ public class GadgetTypeService {
             return null;
         }
         gadgetTypeRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
-        return GadgetTypePojo.fromEntity(GadgetTypePojo.toEntity(pojo));
+        return GadgetTypePojo.fromEntity(gadgetTypeRepository.save(GadgetTypePojo.toEntity(pojo)));
     }
 
     public void deleteById(Long id) {

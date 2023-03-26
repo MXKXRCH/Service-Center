@@ -1,6 +1,7 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.mak.servicecenter.dto.RepairPojo;
 import ru.mak.servicecenter.entity.Repair;
 import ru.mak.servicecenter.repository.RepairRepository;
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class RepairService {
     @Autowired
     RepairRepository repairRepository;
-
 
     public RepairPojo getById(Long id) {
         if (id == null) {
@@ -36,7 +37,7 @@ public class RepairService {
         if (pojo == null) {
             return null;
         }
-        return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
+        return RepairPojo.fromEntity(repairRepository.save(RepairPojo.toEntity(pojo)));
     }
 
 
@@ -45,9 +46,8 @@ public class RepairService {
             return null;
         }
         repairRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
-        return RepairPojo.fromEntity(RepairPojo.toEntity(pojo));
+        return RepairPojo.fromEntity(repairRepository.save(RepairPojo.toEntity(pojo)));
     }
-
 
     public void deleteById(Long id) {
         repairRepository.deleteById(id);

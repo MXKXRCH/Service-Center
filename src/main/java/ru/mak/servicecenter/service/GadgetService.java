@@ -1,6 +1,7 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.mak.servicecenter.dto.GadgetPojo;
 import ru.mak.servicecenter.entity.Gadget;
 import ru.mak.servicecenter.entity.GadgetType;
@@ -11,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class GadgetService {
     @Autowired
     GadgetRepository gadgetRepository;
     @Autowired
     GadgetTypeRepository gadgetTypeRepository;
-
 
     public GadgetPojo getById(Long id) {
         if (id == null) {
@@ -41,7 +42,7 @@ public class GadgetService {
         }
         GadgetType gadgetType = gadgetTypeRepository.findById(gadgetTypeId).orElseThrow();
         Gadget gadget = GadgetPojo.toEntity(pojo, gadgetType);
-        return GadgetPojo.fromEntity(gadget);
+        return GadgetPojo.fromEntity(gadgetRepository.save(gadget));
     }
 
     public GadgetPojo update(GadgetPojo pojo, Long gadgetTypeId) {
@@ -51,19 +52,8 @@ public class GadgetService {
         gadgetRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         GadgetType gadgetType = gadgetTypeRepository.findById(gadgetTypeId).orElseThrow();
         Gadget gadget = GadgetPojo.toEntity(pojo, gadgetType);
-        return GadgetPojo.fromEntity(gadget);
+        return GadgetPojo.fromEntity(gadgetRepository.save(gadget));
     }
-
-
-    public GadgetPojo save(GadgetPojo pojo) {
-        return null;
-    }
-
-
-    public GadgetPojo update(Long id, GadgetPojo pojo) {
-        return null;
-    }
-
 
     public void deleteById(Long id) {
         gadgetRepository.deleteById(id);

@@ -1,6 +1,7 @@
 package ru.mak.servicecenter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.mak.servicecenter.dto.EmployeePojo;
 import ru.mak.servicecenter.entity.Employee;
 import ru.mak.servicecenter.repository.EmployeeRepository;
@@ -9,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
-
 
     public EmployeePojo getById(Long id) {
         if (id == null) {
@@ -36,7 +37,7 @@ public class EmployeeService {
         if (pojo == null) {
             return null;
         }
-        return EmployeePojo.fromEntity(EmployeePojo.toEntity(pojo));
+        return EmployeePojo.fromEntity(employeeRepository.save(EmployeePojo.toEntity(pojo)));
     }
 
 
@@ -45,7 +46,7 @@ public class EmployeeService {
             return null;
         }
         employeeRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
-        return EmployeePojo.fromEntity(EmployeePojo.toEntity(pojo));
+        return EmployeePojo.fromEntity(employeeRepository.save(EmployeePojo.toEntity(pojo)));
     }
 
 

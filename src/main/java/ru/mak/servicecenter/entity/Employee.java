@@ -11,7 +11,11 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "employee")
-public class Employee extends Base {
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "name")
     private String name;
 
@@ -28,5 +32,5 @@ public class Employee extends Base {
     private BigDecimal salary;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
-    private Set<Order> orders;
+    private Set<Ordering> orderings;
 }

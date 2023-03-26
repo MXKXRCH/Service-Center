@@ -11,7 +11,11 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "repair_service")
-public class Repair extends Base {
+public class Repair {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "name")
     private String name;
 
@@ -20,9 +24,9 @@ public class Repair extends Base {
 
     @ManyToMany
     @JoinTable(
-            name = "repair_order",
+            name = "repair_ordering",
             joinColumns = @JoinColumn(name = "repair_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
+            inverseJoinColumns = @JoinColumn(name = "ordering_id")
     )
-    private Set<Order> orders;
+    private Set<Ordering> orderings;
 }

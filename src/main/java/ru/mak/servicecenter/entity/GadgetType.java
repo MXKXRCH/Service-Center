@@ -10,7 +10,11 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "gadget_type")
-public class GadgetType extends Base {
+public class GadgetType {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "name")
     private String name;
 

@@ -4,19 +4,18 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.mak.servicecenter.entity.Gadget;
 import ru.mak.servicecenter.entity.GadgetType;
-import ru.mak.servicecenter.entity.Order;
-
-import java.util.Set;
 
 @Getter
 @Setter
-public class GadgetPojo extends BasePojo {
+public class GadgetPojo {
+    private Long id;
     private String name;
     private Integer guarantee;
     private GadgetTypePojo gadgetType;
 
     public static GadgetPojo fromEntity(Gadget gadget) {
-        GadgetPojo pojo = (GadgetPojo) BasePojo.fromEntity(gadget);
+        GadgetPojo pojo = new GadgetPojo();
+        pojo.setId(gadget.getId());
         pojo.setName(gadget.getName());
         pojo.setGuarantee(gadget.getGuarantee());
         pojo.setGadgetType(GadgetTypePojo.fromEntity(gadget.getGadgetType()));
@@ -24,7 +23,8 @@ public class GadgetPojo extends BasePojo {
     }
 
     public static Gadget toEntity(GadgetPojo pojo, GadgetType gadgetType) {
-        Gadget gadget = (Gadget) BasePojo.toEntity(pojo);
+        Gadget gadget = new Gadget();
+        gadget.setId(pojo.getId());
         gadget.setName(pojo.getName());
         gadget.setGuarantee(pojo.getGuarantee());
         gadget.setGadgetType(gadgetType);
