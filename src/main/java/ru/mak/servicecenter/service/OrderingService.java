@@ -9,8 +9,11 @@ import ru.mak.servicecenter.entity.Ordering;
 import ru.mak.servicecenter.repository.EmployeeRepository;
 import ru.mak.servicecenter.repository.GadgetRepository;
 import ru.mak.servicecenter.repository.OrderingRepository;
+import ru.mak.servicecenter.repository.RepairRepository;
 
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -22,6 +25,8 @@ public class OrderingService {
     EmployeeRepository employeeRepository;
     @Autowired
     GadgetRepository gadgetRepository;
+    @Autowired
+    RepairRepository repairRepository;
 
     public OrderingPojo getById(Long id) {
         if (id == null) {
@@ -44,8 +49,12 @@ public class OrderingService {
             return null;
         }
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
-        Gadget gadget = gadgetRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Gadget gadget = gadgetRepository.findById(gadgetId).orElseThrow(NoSuchElementException::new);
         Ordering ordering = OrderingPojo.toEntity(pojo, employee, gadget);
+        Set<Long> repairsId = pojo.getRepairsId();
+        for (Long repairId : repairsId) {
+            ordering.addRepair(repairRepository.findById(repairId).orElse(null));
+        }
         return OrderingPojo.fromEntity(orderingRepository.save(ordering));
     }
 
@@ -55,8 +64,12 @@ public class OrderingService {
         }
         orderingRepository.findById(pojo.getId()).orElseThrow(NoSuchElementException::new);
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
-        Gadget gadget = gadgetRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
+        Gadget gadget = gadgetRepository.findById(gadgetId).orElseThrow(NoSuchElementException::new);
         Ordering ordering = OrderingPojo.toEntity(pojo, employee, gadget);
+        Set<Long> repairsId = pojo.getRepairsId();
+        for (Long repairId : repairsId) {
+            ordering.addRepair(repairRepository.findById(repairId).orElse(null));
+        }
         return OrderingPojo.fromEntity(orderingRepository.save(ordering));
     }
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -33,6 +34,21 @@ public class Ordering {
     @JoinColumn(name="gadget_id")
     private Gadget gadget;
 
-    @ManyToMany(mappedBy = "orderings", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "repair_ordering",
+            joinColumns = @JoinColumn(name = "ordering_id"),
+            inverseJoinColumns = @JoinColumn(name = "repair_id")
+    )
     private Set<Repair> repairs;
+
+    public boolean addRepair(Repair repair) {
+        if (repair == null) {
+            return false;
+        }
+        if (repairs == null) {
+            repairs = new HashSet<>();
+        }
+        return repairs.add(repair);
+    }
 }

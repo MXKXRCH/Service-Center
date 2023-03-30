@@ -21,7 +21,8 @@ public class OrderingPojo {
     private Date endDate;
     private EmployeePojo employeePojo;
     private GadgetPojo gadgetPojo;
-    private Set<RepairPojo> repairsId;
+    private Set<RepairPojo> repairs;
+    private Set<Long> repairsId;
     private BigDecimal totalPrice;
 
     public static OrderingPojo fromEntity(Ordering ordering) {
@@ -38,7 +39,7 @@ public class OrderingPojo {
             repairs.add(RepairPojo.fromEntity(repair));
             price = price.add(repair.getPrice());
         }
-        pojo.setRepairsId(repairs);
+        pojo.setRepairs(repairs);
         pojo.setTotalPrice(price);
         return pojo;
     }

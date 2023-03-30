@@ -22,11 +22,6 @@ public class Repair {
     @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToMany
-    @JoinTable(
-            name = "repair_ordering",
-            joinColumns = @JoinColumn(name = "repair_id"),
-            inverseJoinColumns = @JoinColumn(name = "ordering_id")
-    )
+    @ManyToMany(mappedBy = "repairs", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Ordering> orderings;
 }
