@@ -3,9 +3,11 @@ package ru.mak.servicecenter.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mak.servicecenter.dto.OrderingPojo;
+import ru.mak.servicecenter.dto.RepairPojo;
 import ru.mak.servicecenter.entity.Employee;
 import ru.mak.servicecenter.entity.Gadget;
 import ru.mak.servicecenter.entity.Ordering;
+import ru.mak.servicecenter.entity.Repair;
 import ru.mak.servicecenter.repository.EmployeeRepository;
 import ru.mak.servicecenter.repository.GadgetRepository;
 import ru.mak.servicecenter.repository.OrderingRepository;
@@ -51,9 +53,8 @@ public class OrderingService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
         Gadget gadget = gadgetRepository.findById(gadgetId).orElseThrow(NoSuchElementException::new);
         Ordering ordering = OrderingPojo.toEntity(pojo, employee, gadget);
-        Set<Long> repairsId = pojo.getRepairsId();
-        for (Long repairId : repairsId) {
-            ordering.addRepair(repairRepository.findById(repairId).orElse(null));
+        for (RepairPojo repair : pojo.getRepairs()) {
+            ordering.addRepair(repairRepository.findById(repair.getId()).orElse(null));
         }
         return OrderingPojo.fromEntity(orderingRepository.save(ordering));
     }
@@ -66,9 +67,8 @@ public class OrderingService {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(NoSuchElementException::new);
         Gadget gadget = gadgetRepository.findById(gadgetId).orElseThrow(NoSuchElementException::new);
         Ordering ordering = OrderingPojo.toEntity(pojo, employee, gadget);
-        Set<Long> repairsId = pojo.getRepairsId();
-        for (Long repairId : repairsId) {
-            ordering.addRepair(repairRepository.findById(repairId).orElse(null));
+        for (RepairPojo repair : pojo.getRepairs()) {
+            ordering.addRepair(repairRepository.findById(repair.getId()).orElse(null));
         }
         return OrderingPojo.fromEntity(orderingRepository.save(ordering));
     }

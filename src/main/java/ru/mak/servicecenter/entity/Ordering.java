@@ -21,16 +21,18 @@ public class Ordering {
     private String description;
 
     @Column(name = "start_date")
+    @Temporal(value = TemporalType.DATE)
     private Date startDate;
 
     @Column(name = "end_date")
+    @Temporal(value = TemporalType.DATE)
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="employee_id")
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gadget_id")
     private Gadget gadget;
 

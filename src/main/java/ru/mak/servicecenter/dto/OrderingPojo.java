@@ -19,10 +19,9 @@ public class OrderingPojo {
     private String description;
     private Date startDate;
     private Date endDate;
-    private EmployeePojo employeePojo;
-    private GadgetPojo gadgetPojo;
+    private EmployeePojo employee;
+    private GadgetPojo gadget;
     private Set<RepairPojo> repairs;
-    private Set<Long> repairsId;
     private BigDecimal totalPrice;
 
     public static OrderingPojo fromEntity(Ordering ordering) {
@@ -31,8 +30,8 @@ public class OrderingPojo {
         pojo.setDescription(ordering.getDescription());
         pojo.setStartDate(ordering.getStartDate());
         pojo.setEndDate(ordering.getEndDate());
-        pojo.setEmployeePojo(EmployeePojo.fromEntity(ordering.getEmployee()));
-        pojo.setGadgetPojo(GadgetPojo.fromEntity(ordering.getGadget()));
+        pojo.setEmployee(EmployeePojo.fromEntity(ordering.getEmployee()));
+        pojo.setGadget(GadgetPojo.fromEntity(ordering.getGadget()));
         Set<RepairPojo> repairs = new HashSet<>();
         BigDecimal price = new BigDecimal(0);
         for(Repair repair : ordering.getRepairs()) {
