@@ -19,10 +19,10 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "experience")

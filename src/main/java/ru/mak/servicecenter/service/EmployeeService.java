@@ -37,7 +37,12 @@ public class EmployeeService {
         if (pojo == null) {
             return null;
         }
-        return EmployeePojo.fromEntity(employeeRepository.save(EmployeePojo.toEntity(pojo)));
+        try {
+            return EmployeePojo.fromEntity(employeeRepository.save(EmployeePojo.toEntity(pojo)));
+        } catch (Exception e) {
+            System.out.println("Error!\n" + e);
+            return null;
+        }
     }
 
 
